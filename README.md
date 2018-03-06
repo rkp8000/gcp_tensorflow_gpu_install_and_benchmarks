@@ -269,3 +269,124 @@ Note 2: installing CUDA libraries is actually quite easy—all we actually did w
 # Take a break
 
 Whew. Still hanging in there? it's okay, we're getting close.
+
+# Set up a virtual environment with GPU-enabled tensorflow
+
+On your VM, go back to your home directory:
+
+`$ cd ~`
+
+and clone this repository:
+
+`$ git clone https://github.com/rkp8000/gcp_tf_gpu_installation`
+
+Move into it and create a new virtual environment from the environment configuration file:
+
+```
+$ cd gcp_tf_gpu_installation
+$ conda env create -f environment-gpu.yml
+```
+
+This will create a new virtual environment named "tf_demo" and install a bunch of libraries into it (including tensorflow). It'll probably take a few minutes.
+
+## Activate the environment
+
+`$ source activate tf_demo`
+
+From now on, this is something you'll need to do every time you start a new SSH session, since it tells the system to use the Python environment where all our goodies are installed.
+
+## Test TensorFlow
+
+Start a Python interpreter, import TensorFlow, and print "Hello, World":
+
+```
+(tf_demo) $ python
+>>> import tensorflow as tf
+>>> hello = tf.constant('Hello, World')
+>>> sess = tf.Session()
+>>> print(sess.run(hello))
+```
+
+You may get a couple warnings, but if you get the output `b'Hello, TensorFlow!'` then it worked.
+
+If you get an error or the import hangs, close your SSH connection, establishing a new one, activating your environment, and trying again. If that doesn't fix it, check out [https://www.tensorflow.org/install/install_linux#common_installation_problems](https://www.tensorflow.org/install/install_linux#common_installation_problems) for common tensorflow installation problems.
+
+## Test that TensorFlow recognizes the GPU
+
+While in the "tf_demo" environment, start the Python interpreter again if it's not still open, and run the following:
+
+```
+>>> from tensorflow.python.client import device_lib
+>>> local_device_protos = device_lib.list_local_devices()
+>>> print([x.name for x in local_device_protos if x.device_type == 'GPU'])
+```
+
+If you see your GPU listed, hooray. If you see an empty list "[]", then the opposite of hooray. If the import hangs, close the interpreter/SSH session and try once more.
+
+## Train a simple network with the GPU
+
+Move back into your cloned version of this repository and run the test script "tf_test.py":
+
+```
+(tf_demo) $ cd ~/gcp_tf_gpu_installation
+(tf_demo) $ python tf_test.py
+```
+
+The script will take a minute to download and format the MNIST handwritten digits dataset, then training will begin. It should only take a minute or two to run through all 10 epochs once training begins, and you should see an output like the following:
+
+```
+Downloading MNIST data...
+Successfully downloaded train-images-idx3-ubyte.gz 9912422 bytes.
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Successfully downloaded train-labels-idx1-ubyte.gz 28881 bytes.
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Successfully downloaded t10k-images-idx3-ubyte.gz 1648877 bytes.
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Successfully downloaded t10k-labels-idx1-ubyte.gz 4542 bytes.
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+Image Shape: (28, 28, 1)
+Training Set:   55000 samples
+Validation Set: 5000 samples
+Test Set:       10000 samples
+Updated Image Shape: (32, 32, 1)
+WARNING:tensorflow:From tf_test.py:101: softmax_cross_entropy_with_logits (from tensorflow.python.ops.nn_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Future major versions of TensorFlow will allow gradients to flow
+into the labels input on backprop by default.
+See tf.nn.softmax_cross_entropy_with_logits_v2.
+2018-03-06 01:29:24.038497: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-03-06 01:29:24.124551: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-03-06 01:29:24.124873: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1212] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8235
+pciBusID: 0000:00:04.0
+totalMemory: 11.17GiB freeMemory: 11.09GiB
+2018-03-06 01:29:24.124900: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1312] Adding visible gpu devices: 0
+2018-03-06 01:29:24.365232: I tensorflow/core/common_runtime/gpu/gpu_device.cc:993] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10750 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:04
+.0, compute capability: 3.7)
+Training...
+EPOCH 1 ...
+Validation Accuracy = 0.971
+EPOCH 2 ...
+Validation Accuracy = 0.978
+EPOCH 3 ...
+Validation Accuracy = 0.983
+EPOCH 4 ...
+Validation Accuracy = 0.987
+EPOCH 5 ...
+Validation Accuracy = 0.988
+EPOCH 6 ...
+Validation Accuracy = 0.988
+EPOCH 7 ...
+Validation Accuracy = 0.990
+EPOCH 8 ...
+Validation Accuracy = 0.990
+EPOCH 9 ...
+Validation Accuracy = 0.989
+EPOCH 10 ...
+Validation Accuracy = 0.992
+Model saved
+2018-03-06 01:29:48.424147: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1312] Adding visible gpu devices: 0
+2018-03-06 01:29:48.424292: I tensorflow/core/common_runtime/gpu/gpu_device.cc:993] Creating TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 260 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:04.0
+, compute capability: 3.7)
+Test Accuracy = 0.990
+```
