@@ -390,3 +390,33 @@ Model saved
 , compute capability: 3.7)
 Test Accuracy = 0.990
 ```
+
+Phew.
+
+# Create a disk image
+
+To not have to go through that again every time you spin up a new VM instance, it will be of great benefit to create an image of the disk you so carefully put together.
+
+To do this, exit your browser-based SSH session, go to your [GCP console](https://console.cloud.google.com) and go to Compute Engine --> VM instances, click on the three vertical dots to the right of your instance, and click Stop.
+
+After a couple minutes the instance will stop.
+
+Next, go to Compute Engine --> Images and click "[+] CREATE IMAGE" at the top.
+
+Name your instance something like 'tf-gpu-installation', give it a description, set Encryption to 'Automatic (recommended)', set Source to "Disk", and under "Source disk" select your instance.
+
+Click Create, and after a few minutes you'll have a brand new custom disk image.
+
+This means that the next time you make a new VM, instead of installing everything by hand again, under "Boot disk" you can click "Change", go to the "Custom images" tab, and select your 'tf-gpu-installation' image. Set the rest of the VM configuration parameters (e.g., Zone, vCPUs, GPUs, etc), and click create, and the instance will be created in the same state as the one you just painstakingly created.
+
+# Using Jupyter
+
+If you're a Jupyter fan (which you should be) it's very easy to launch a Jupyter notebook server from your VM instance in the Google cloud (especially compared to installing CUDA/TensorFlow). Basically you just need to configure a couple things, make a new firewall rule in your GCP console, and make sure your instance has HTTP/HTTPS traffic enabled. For details, see [this great tutorial](https://towardsdatascience.com/running-jupyter-notebook-in-google-cloud-platform-in-15-min-61e16da34d52) by Amulya Aankul.
+
+# Sources
+
+In no way did I figure all this out on my own. I basically just copied all the key components from [Steve Domin's article](https://hackernoon.com/launch-a-gpu-backed-google-compute-engine-instance-and-setup-tensorflow-keras-and-jupyter-902369ed5272) and changed all the software versions to be compatible with the latest tensorflow (v1.6.0).
+
+The environment-gpu.yml file and tf_test.py are from the Udacity Github repos [https://github.com/udacity/CarND-Term1-Starter-Kit](https://github.com/udacity/CarND-Term1-Starter-Kit) and [https://github.com/udacity/CarND-LeNet-Lab](https://github.com/udacity/CarND-LeNet-Lab) with a couple very minor changes.
+
+Happy cloud computing.
