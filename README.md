@@ -335,7 +335,7 @@ While in the "tf_demo" environment, start the Python interpreter again if it's n
 >>> [x.name for x in local_device_protos if x.device_type == 'GPU']
 ```
 
-If you see your GPU listed, hooray. If you see an empty list "[]", then the opposite of hooray. If the import hangs, close the interpreter/SSH session and try again.
+If you see your GPU listed (`['/device:GPU:0']`) hooray. If you see an empty list "[]", then the opposite of hooray. If the import hangs, close the interpreter/SSH session and try again.
 
 ## Train a simple network with the GPU
 
@@ -432,5 +432,7 @@ If you're a Jupyter fan (which you should be) it's very easy to launch a Jupyter
 I definitely didn't figure all this out on my own. I basically just copied all the key components from [Steve Domin's article](https://hackernoon.com/launch-a-gpu-backed-google-compute-engine-instance-and-setup-tensorflow-keras-and-jupyter-902369ed5272) and changed all the software versions to be compatible with the latest tensorflow (v1.6.0).
 
 The environment-gpu.yml file and tf_test.py are from the Udacity Github repos [https://github.com/udacity/CarND-Term1-Starter-Kit](https://github.com/udacity/CarND-Term1-Starter-Kit) and [https://github.com/udacity/CarND-LeNet-Lab](https://github.com/udacity/CarND-LeNet-Lab) with a couple very minor changes.
+
+The lines for getting TensorFlow to print out your GPU devices is from [this StackOverflow post](https://stackoverflow.com/questions/38559755/how-to-get-current-available-gpus-in-tensorflow).
 
 Happy cloud computing.
