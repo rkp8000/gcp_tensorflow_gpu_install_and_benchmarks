@@ -5,10 +5,9 @@ It will guide you through the minimal steps to spin up a VM in the Google cloud,
 
 # Note 1: Remember to stop your instance you're done with it so you don't continue getting charged
 # Note 2: Setting up your GPU quota can take a day or two, so plan accordingly
-# Note 3: The installation is quite involved, but if you save a disk image once things are working you'll only have to do it once
-# Note 4: This tutorial uses Python 3, TensorFlow 1.6.0, CUDA 9.0, and CuDNN 7.0.4 for CUDA 9.0
+# Note 3: This tutorial uses Python 3, TensorFlow 1.6.0, CUDA 9.0, and CuDNN 7.0.4 for CUDA 9.0
 And all software versions must be compatible with each other for the install to be successful, so only change them if you know exactly what you're doing.
-# Note 5: You will need basic command line skills to follow this tutorial
+# Note 4: The installation is quite involved, but if you save a disk image once things are working you'll only have to do it once
 
 Okay, onwards:
 
