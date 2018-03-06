@@ -306,6 +306,18 @@ Start a Python interpreter, import TensorFlow, and print "Hello, World":
 >>> import tensorflow as tf
 >>> hello = tf.constant('Hello, World')
 >>> sess = tf.Session()
+2018-03-06 19:21:03.999245: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this 
+TensorFlow binary was not compiled to use: AVX2 FMA
+2018-03-06 19:21:06.344098: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from Sys
+FS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-03-06 19:21:06.344518: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1212] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8235
+pciBusID: 0000:00:04.0
+totalMemory: 11.17GiB freeMemory: 11.10GiB
+2018-03-06 19:21:06.344548: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1312] Adding visible gpu devices: 0
+2018-03-06 19:21:06.591591: I tensorflow/core/common_runtime/gpu/gpu_device.cc:993] Creating TensorFlow device (/job:local
+host/replica:0/task:0/device:GPU:0 with 10765 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:
+04.0, compute capability: 3.7)
 >>> print(sess.run(hello))
 ```
 
@@ -323,7 +335,7 @@ While in the "tf_demo" environment, start the Python interpreter again if it's n
 >>> [x.name for x in local_device_protos if x.device_type == 'GPU']
 ```
 
-If you see your GPU listed, hooray. If you see an empty list "[]", then the opposite of hooray. If the import hangs, close the interpreter/SSH session and try again.
+If you see your GPU listed (`['/device:GPU:0']`) hooray. If you see an empty list "[]", then the opposite of hooray. If the import hangs, close the interpreter/SSH session and try again.
 
 ## Train a simple network with the GPU
 
@@ -420,5 +432,7 @@ If you're a Jupyter fan (which you should be) it's very easy to launch a Jupyter
 I definitely didn't figure all this out on my own. I basically just copied all the key components from [Steve Domin's article](https://hackernoon.com/launch-a-gpu-backed-google-compute-engine-instance-and-setup-tensorflow-keras-and-jupyter-902369ed5272) and changed all the software versions to be compatible with the latest tensorflow (v1.6.0).
 
 The environment-gpu.yml file and tf_test.py are from the Udacity Github repos [https://github.com/udacity/CarND-Term1-Starter-Kit](https://github.com/udacity/CarND-Term1-Starter-Kit) and [https://github.com/udacity/CarND-LeNet-Lab](https://github.com/udacity/CarND-LeNet-Lab) with a couple very minor changes.
+
+The lines for getting TensorFlow to print out your GPU devices is from [this StackOverflow post](https://stackoverflow.com/questions/38559755/how-to-get-current-available-gpus-in-tensorflow).
 
 Happy cloud computing.
