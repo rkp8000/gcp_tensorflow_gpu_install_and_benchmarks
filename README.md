@@ -34,7 +34,7 @@ Click Submit request, and you'll get an email confirmation explaining that your 
 You may also be asked to pay a ~$70 confirmation charge to ensure you're not a robot, which will appear as additional credits on your account. I found this a bit strange but paid anyway since I assumed I'd probably use it eventually once my free credits ran out. You might not have to do this, however, as my quota increase request was approved even before my payment went through.
 
 ## Configure your VM instance
-Once your GPU has been increased to 1, go to "Compute Engine"->"VM" instances and click "CREATE INSTANCE" to spin up a new VM instance.
+Once your GPU has been increased to 1, go to "Compute Engine"->"VM instances" and click "CREATE INSTANCE" to spin up a new VM instance.
 
 Name your instance (e.g. 'tf-demo').
 
@@ -56,7 +56,9 @@ If you only planning on messing around for a little bit or expect to use your in
 
 ## Create your instance
 
-Once you've configured everything click on "Create". Not so bad, right?
+Once you've configured everything click on "Create".
+
+It will probably take a couple minutes to start up, and you'll see a green circle with a checkbox in it when it's booted.
 
 ## Make your VM's external IP address static
 
