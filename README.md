@@ -1,14 +1,11 @@
-# Installing and testing GPU-enabled tensorflow on a Google Cloud Platform virtual machine
+# INSTALLING AND TESTING GPU-ENABLED TENSORFLOW ON A GOOGLE CLOUD PLATFORM VIRTUAL MACHINE
 This is an updated and streamlined version of [this excellent tutorial](https://hackernoon.com/launch-a-gpu-backed-google-compute-engine-instance-and-setup-tensorflow-keras-and-jupyter-902369ed5272) by Steve Domin.
 
 It will guide you through the minimal steps to spin up a VM in the Google cloud, install the latest version of tensorflow (1.6.0 as of 3/5/2018), and get it to recognize the GPU and rapidly train a simple network.
 
-Note 1:
-# REMEMBER TO STOP YOUR INSTANCE WHEN YOU'RE DONE USING IT, OTHERWISE YOU WILL CONTINUE GETTING CHARGED
-Note 2:
-# SETTING UP YOUR GPU QUOTAS CAN TAKE A DAY OR TWO, SO PLAN ACCORDINGLY
-Note 3:
-# THE INSTALLATION IS FAIRLY INVOLVED, BUT YOU ONLY HAVE TO DO IT ONCE, IF YOU SAVE A DISK IMAGE ONCE YOU GET THINGS WORKING
+# Note 1: Remember to stop your instance you're done with it so you don't continue getting charged
+# Note 2: Setting up your GPU quota can take a day or two, so plan accordingly
+# Note 3: The installation is quite involved, but if you save a disk image once things are working you'll only have to do it once
 
 Okay, onwards:
 
@@ -45,7 +42,7 @@ For Zone select the zone where you increased your GPU quota (e.g. us-west1-b). I
 
 Under Machine type select 8 vCPUs with 30 GB memory.
 
-Still under Machine type, clikc Customize, which will display more options.
+Still under Machine type, click Customize, which will display more options.
 
 Click on GPUs and change the number of GPUs to 1 and the GPU type to NVIDIA Tesla K80.
 
@@ -60,3 +57,21 @@ If you only planning on messing around for a little bit or expect to use your in
 ### Create your instance
 
 Once you've configured everything click on Create. Not so bad, right?
+
+### Make your VM's external IP address static
+
+Go to VPC Network --> External IP addresses.
+
+On the row corresponding to your new instance, click on the arrow next to Ephemeral and select Static.
+
+Name the address whatever you want. I chose tf-demo, for instance.
+
+### Connect to your VM
+
+Go back to Compute Engine --> VM Instances.
+
+Under Connect, click on the arrow next to SSH and select "Open in browser window", and you'll be dropped into a browser-based SSH session into your VM instance. Sometimes you have to click twice to get this to work for some reason.
+
+Your username will be your Google username or something similar, and it will be identical to how it'd be if you just bought  brand new linux computer with an NVIDIA Tesla K80 GPU installed in it and logged in the for the first time.
+
+
